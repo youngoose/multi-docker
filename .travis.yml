@@ -1,12 +1,12 @@
-sudo: required
 language: generic
+sudo: required
 services:
   - docker
 
 before_install:
   - docker build -t youngoose/react-test -f ./client/Dockerfile.dev ./client
 
-script:
+scripts:
   - docker run -e CI=true youngoose/react-test npm test
 
 after_success:
@@ -16,7 +16,7 @@ after_success:
   - docker build -t youngoose/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to docker hub
+  # Take the images and push them docker hub
   - docker push youngoose/multi-client
   - docker push youngoose/multi-nginx
   - docker push youngoose/multi-server
